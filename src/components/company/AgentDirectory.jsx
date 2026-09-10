@@ -1,0 +1,6 @@
+import React from 'react';
+import { getDepartment } from '@/components/company/companyData';
+import PixelPerson from '@/components/company/PixelPerson';
+export default function AgentDirectory({ departmentIds, tasks, onTask }) {
+  return <div className="agent-directory">{departmentIds.map(id=>{const d=getDepartment(id);return <section className="panel agent-team" key={id}><div className="section-heading"><h2><span className="department-dot" style={{background:d.color}}/>{d.name}</h2><span className="muted-small">팀장 1 · 팀원 3</span></div><div className="agent-grid">{d.names.map((name,i)=>{const work=tasks.filter(t=>t.department===id&&t.assignee===name&&t.status!=='completed');const running=work.some(t=>t.status==='in_progress');return <div className="agent-card" key={name}><span className="agent-portrait" style={{background:d.pale}}><PixelPerson color={d.color} variant={i} size={58}/></span><div><h3>{name}{i===0&&<span>LEAD</span>}</h3><p>{d.roles[i]}</p><span className={`status-tag ${running?'in_progress':'queued'}`}><i/>{running?'업무 중':'대기 중'}</span></div><div className="agent-work">{work.length?work.map(t=><button key={t.id} onClick={()=>onTask(t)}>{t.title}</button>):<small>배정된 작업이 없습니다.</small>}</div></div>})}</div></section>})}</div>;
+}

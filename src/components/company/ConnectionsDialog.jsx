@@ -1,0 +1,6 @@
+import React from 'react';
+import { Plug, Mail, Database, Network } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+export default function ConnectionsDialog({ open, onClose }) {
+  return <Dialog open={open} onOpenChange={v=>{if(!v)onClose();}}><DialogContent className="company-dialog"><DialogHeader><span className="dialog-feature-icon"><Plug size={24}/></span><DialogTitle>외부 서비스 연동</DialogTitle><DialogDescription>현재 연결된 서비스가 없습니다.</DialogDescription></DialogHeader><div className="connection-list">{[{icon:Mail,title:'메일 발송',text:'메일 계정 연결 및 발송 승인 필요'},{icon:Database,title:'데이터 수집 · 처리',text:'대상 서비스와 접근 권한 설정 필요'},{icon:Network,title:'MCP 연결',text:'연결할 도구와 사용 범위 설정 필요'}].map(item=><div key={item.title}><item.icon size={22}/><span><strong>{item.title}</strong><small>{item.text}</small></span><em>미연결</em></div>)}</div><p className="form-notice">지금은 자연어 업무 배정과 진행 현황 관리를 사용할 수 있어요. 실제 자동화를 추가하려면 앱 제작 채팅에서 연결하려는 서비스와 업무를 알려 주세요.</p><button className="primary-button full-width" onClick={onClose}>확인</button></DialogContent></Dialog>;
+}

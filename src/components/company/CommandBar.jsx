@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { ArrowUp, Sparkles, LoaderCircle, CornerDownLeft } from 'lucide-react';
-export default function CommandBar({ isDemo, onSetup, onAssign, onCreated }) {
-  const [text,setText]=useState(''), [busy,setBusy]=useState(false), [error,setError]=useState('');
+export default function CommandBar({ isDemo, onSetup, onAssign, onCreated, draft, setDraft }) {
+  const text=draft, setText=setDraft;
+  const [busy,setBusy]=useState(false), [error,setError]=useState('');
   async function submit(e) {
     e.preventDefault(); if(text.trim().length<3 || busy) return;
     if(isDemo){onSetup();return;}

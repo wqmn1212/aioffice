@@ -1,0 +1,54 @@
+{
+  "name": "Goal",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed"
+      ],
+      "default": "active"
+    },
+    "department": {
+      "type": "string",
+      "enum": [
+        "sales",
+        "marketing",
+        "development",
+        "design",
+        "hr",
+        "operations"
+      ]
+    }
+  },
+  "required": [
+    "company_id",
+    "title",
+    "description",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "read": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "update": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "delete": {
+      "data.company_id": "{{user.data.company_id}}"
+    }
+  }
+}

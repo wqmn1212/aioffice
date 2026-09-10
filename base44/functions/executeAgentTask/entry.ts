@@ -27,6 +27,7 @@ export default async function(req) {
     const emailBody = cleanText(draft.body, 3000);
     const summary = cleanText(draft.summary, 500);
     const approval = await base44.asServiceRole.entities.Approval.create({ company_id: task.company_id, task_id: task.id, department: task.department, title: `${task.title} · ${task.iteration || 1}회차 실행 승인`, preview_data: { subject, body: emailBody, summary }, action_type: 'SEND_EMAIL', action_payload: { to: owner.email, subject, body: emailBody }, status: 'PENDING', feedback_memo: '' });
+    await base44.asServiceRole.entities.WorkTask.update(task.id, { status: 'pending_approval', result: summary });
     await base44.asServiceRole.entities.AgentLog.create({ company_id: task.company_id, task_id: task.id, department: task.department, agent_name: agentName, message: '실행 초안을 완성해 대표 결재를 요청했습니다.', level: 'APPROVAL' });
     return Response.json({ approval_id: approval.id, status: approval.status });
   } catch (error) {

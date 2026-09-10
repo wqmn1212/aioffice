@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import { Grid2X2, List, ChevronDown } from 'lucide-react';
-import { getDepartment } from '@/components/company/companyData';
-import DepartmentCard from '@/components/company/DepartmentCard';
-import TaskTable from '@/components/company/TaskTable';
-import ActivityPanel from '@/components/company/ActivityPanel';
-export default function DashboardContent({ tasks, departmentIds, onDepartment, onTask, onAll, onAgents, isDemo }) {
-  const [view,setView]=useState('office'),[filter,setFilter]=useState('all');
-  return <div className="dashboard-columns"><div className="dashboard-center"><section className="office-section"><div className="section-heading"><div><h2>우리 회사 오피스 <span className="heading-count">{departmentIds.length}</span></h2><p>픽셀 팀원들의 업무 현황을 한눈에 확인하세요.</p></div><div className="office-controls"><label className="filter-select"><select value={filter} onChange={e=>setFilter(e.target.value)} aria-label="오피스 부서 선택"><option value="all">전체 부서</option>{departmentIds.map(id=><option key={id} value={id}>{getDepartment(id).name}</option>)}</select><ChevronDown size={13}/></label><div className="view-toggle"><button className={view==='office'?'selected':''} onClick={()=>setView('office')} aria-label="오피스 뷰" title="오피스 뷰"><Grid2X2 size={16}/></button><button className={view==='list'?'selected':''} onClick={()=>setView('list')} aria-label="리스트 뷰" title="리스트 뷰"><List size={16}/></button></div></div></div><div className={`department-grid ${view==='list'?'list-view':''}`}>{departmentIds.filter(id=>filter==='all'||filter===id).map(id=><DepartmentCard key={id} department={getDepartment(id)} tasks={tasks.filter(t=>t.department===id)} onSelect={onDepartment} view={view}/>)}</div><div className="office-legend"><span><i className="legend-working"/>업무 중</span><span><i/>대기 중</span><small>{isDemo?'예시 오피스 · 실제 업무가 실행되지는 않아요':'직원 상태는 배정된 작업의 진행 상태를 반영해요'}</small></div></section><TaskTable compact tasks={tasks} onSelect={onTask} departmentIds={departmentIds} onAll={onAll}/></div><ActivityPanel tasks={tasks} departmentIds={departmentIds} onTask={onTask} onAgents={onAgents} isDemo={isDemo}/></div>;
+import React from 'react';
+import CalendarView from '@/components/company/CalendarView';
+import AgentLogFeed from '@/components/company/AgentLogFeed';
+
+export default function DashboardContent({ tasks, goals, logs, onTask, isDemo }) {
+  return <div className="dashboard-workspace"><CalendarView tasks={tasks} goals={goals} onTask={onTask}/><AgentLogFeed logs={logs} tasks={tasks} onTask={onTask} isDemo={isDemo}/></div>;
 }

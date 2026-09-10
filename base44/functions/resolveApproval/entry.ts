@@ -27,7 +27,9 @@ export default async function(req) {
     const iteration = Math.max(1, Math.min(3, Number(task.iteration) || 1));
     const completed = progressRate >= 100 || iteration >= 3;
     const nextIteration = completed ? iteration : iteration + 1;
-    await base44.asServiceRole.entities.WorkTask.update(task.id, { progress_rate: progressRate, progress: progressRate, iteration: nextIteration, status: completed ? 'completed' : 'in_progress', result: summary });
+    const deliverable = `${summary}\n\n[발송 결과물]\n제목: ${cleanText(payload.subject, 120)}\n\n${cleanText(payload.body, 5000)}`;
+    await base44.asServiceRole.entities.WorkTask.update(task.id, { progress_rate: progressRate, progress: progressRate, iteration: nextIteration, status: completed ? 'completed' : 'in_progress', result: deliverable });
+    if (completed && task.goal_id) await base44.asServiceRole.entities.Goal.update(task.goal_id, { status: 'completed' });
     await base44.asServiceRole.entities.AgentLog.create({ company_id: task.company_id, task_id: task.id, department: task.department, agent_name: leaders[task.department] || '팀장 에이전트', message: completed ? `최종 실행을 마쳤습니다. 달성률 ${progressRate}% · ${summary}` : `${iteration}회차 실행을 마쳤습니다. 달성률 ${progressRate}%로 다음 자율 순환을 시작합니다.`, level: completed ? 'SUCCESS' : 'ACTION' });
     return Response.json({ progress_rate: progressRate, iteration: nextIteration, completed, continue_cycle: !completed });
   } catch (error) {

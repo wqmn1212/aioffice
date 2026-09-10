@@ -22,8 +22,11 @@ export default async function(req) {
       response_json_schema: { type: 'object', properties: { title: { type: 'string' }, description: { type: 'string' }, department: { type: 'string', enum: allowedDepartments }, priority: { type: 'string', enum: ['normal', 'high'] } }, required: ['title', 'description', 'department', 'priority'] }
     });
     if (!allowedDepartments.includes(result.department)) return Response.json({ error: '담당 부서를 결정하지 못했습니다.' }, { status: 502 });
-    const task = await base44.entities.WorkTask.create({ company_id: companyId, title: cleanText(result.title, 60), description: cleanText(result.description, 500), department: result.department, assignee: leaders[result.department], status: 'in_progress', priority: result.priority === 'high' ? 'high' : 'normal', progress: 0, result: '', iteration: 1, progress_rate: 0, selected_model: model });
-    return Response.json({ task });
+    const title = cleanText(result.title, 60);
+    const description = cleanText(result.description, 500);
+    const goalRecord = await base44.entities.Goal.create({ company_id: companyId, title, description: goal, status: 'active', department: result.department });
+    const task = await base44.entities.WorkTask.create({ company_id: companyId, goal_id: goalRecord.id, title, description, department: result.department, assignee: leaders[result.department], status: 'in_progress', priority: result.priority === 'high' ? 'high' : 'normal', progress: 0, result: '', iteration: 1, progress_rate: 0, selected_model: model });
+    return Response.json({ task, goal: goalRecord });
   } catch (error) {
     return Response.json({ error: error.message || '업무 접수 중 오류가 발생했습니다.' }, { status: 500 });
   }

@@ -6,7 +6,7 @@ export const departments = [
   { id: 'hr', name: '인사팀', english: 'PEOPLE', color: '#53a58c', pale: '#eaf6f1', icon: 'Users', names: ['피플', '하루', '온유', '미나'], roles: ['인사 팀장', '채용 관리', '조직 문화', '인사 운영'] },
   { id: 'operations', name: '경영지원팀', english: 'OPERATIONS', color: '#8390ae', pale: '#f0f2f7', icon: 'BriefcaseBusiness', names: ['오피', '핀', '정리', '보리'], roles: ['경영지원 팀장', '재무 관리', '문서 관리', '운영 지원'] },
 ];
-export const statusLabels = { queued: '대기 중', in_progress: '진행 중', completed: '완료', cancelled: '취소됨' };
+export const statusLabels = { queued: '대기 중', in_progress: '진행 중', pending_approval: '결재 대기', completed: '완료', cancelled: '취소됨' };
 export const demoCompany = { name: '픽셀 컴퍼니', business_type: 'IT · 소프트웨어', departments: departments.map(d => d.id) };
 const samples = [
   ['잠재 고객 리드 리스트 정리', 'sales', 'in_progress', 65, 'high', '레오'],

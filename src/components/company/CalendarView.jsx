@@ -1,0 +1,12 @@
+import React, { useMemo, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { getDepartment, statusLabels } from '@/components/company/companyData';
+
+const key=d=>`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+export default function CalendarView({ tasks, goals, onTask }) {
+  const [month,setMonth]=useState(()=>new Date()),[selected,setSelected]=useState(()=>key(new Date()));
+  const cells=useMemo(()=>{const first=new Date(month.getFullYear(),month.getMonth(),1),start=new Date(first);start.setDate(1-first.getDay());return Array.from({length:42},(_,i)=>{const d=new Date(start);d.setDate(start.getDate()+i);return d;});},[month]);
+  const selectedTasks=tasks.filter(t=>key(new Date(t.created_date))===selected);
+  const move=n=>setMonth(new Date(month.getFullYear(),month.getMonth()+n,1));
+  return <section className="panel calendar-panel"><div className="calendar-head"><div><h2>업무 캘린더</h2><p>작업 생성일과 현재 상태를 월간으로 확인하세요.</p></div><div><button onClick={()=>move(-1)} aria-label="이전 달"><ChevronLeft size={16}/></button><strong>{month.getFullYear()}년 {month.getMonth()+1}월</strong><button onClick={()=>move(1)} aria-label="다음 달"><ChevronRight size={16}/></button></div></div><div className="calendar-week">{['일','월','화','수','목','금','토'].map(v=><span key={v}>{v}</span>)}</div><div className="calendar-grid">{cells.map(d=>{const dayTasks=tasks.filter(t=>key(new Date(t.created_date))===key(d));return <button key={key(d)} className={`${d.getMonth()!==month.getMonth()?'other ':''}${selected===key(d)?'selected':''}`} onClick={()=>setSelected(key(d))}><b>{d.getDate()}</b><span>{dayTasks.slice(0,4).map(t=><i key={t.id} className={t.status} title={t.title}/>)}</span>{dayTasks.length>4&&<small>+{dayTasks.length-4}</small>}</button>})}</div><div className="calendar-agenda"><h3>선택한 날짜의 업무 <span>{selectedTasks.length}</span></h3>{selectedTasks.map(t=>{const d=getDepartment(t.department),goal=goals.find(g=>g.id===t.goal_id);return <button key={t.id} onClick={()=>onTask(t)}><i className={t.status}/><span><b>{t.title}</b><small>{goal?.title || '기존 목표'} · {d.name} · {t.assignee}</small></span><em>{statusLabels[t.status]}</em></button>})}{!selectedTasks.length&&<p>이 날짜에 생성된 업무가 없습니다.</p>}</div></section>;
+}

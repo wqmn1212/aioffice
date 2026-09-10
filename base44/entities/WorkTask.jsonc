@@ -5,6 +5,9 @@
     "company_id": {
       "type": "string"
     },
+    "goal_id": {
+      "type": "string"
+    },
     "title": {
       "type": "string"
     },
@@ -30,6 +33,7 @@
       "enum": [
         "queued",
         "in_progress",
+        "pending_approval",
         "completed",
         "cancelled"
       ],
@@ -69,6 +73,7 @@
   },
   "required": [
     "company_id",
+    "goal_id",
     "title",
     "department",
     "status"

@@ -1,0 +1,51 @@
+{
+  "name": "WorkTask",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "department": {
+      "type": "string"
+    },
+    "assignee": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "in_progress",
+        "completed"
+      ],
+      "default": "queued"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "high"
+      ],
+      "default": "normal"
+    },
+    "progress": {
+      "type": "number",
+      "default": 0
+    },
+    "result": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "title",
+    "department",
+    "status"
+  ]
+}

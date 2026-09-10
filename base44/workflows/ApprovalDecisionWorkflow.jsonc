@@ -1,0 +1,96 @@
+{
+  "name": "Approval Decision Workflow",
+  "description": "\ub300\ud45c\uc758 \uc2b9\uc778, \uc218\uc815 \uc694\uccad, \ubc18\ub824 \uacb0\uc815\uc744 \ucc98\ub9ac\ud569\ub2c8\ub2e4.",
+  "trigger": {
+    "config": {
+      "trigger_type": "entity",
+      "entity_name": "Approval",
+      "events": [
+        "update"
+      ]
+    },
+    "condition": "${ .trigger.old_data.status == \"PENDING\" and .trigger.data.status != \"PENDING\" }"
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "approval_decision_workflow",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "check_approval": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "checkApprovalStatus",
+            "args": {
+              "approval_id": "${ .trigger.entity_id }"
+            }
+          },
+          "then": "route_decision",
+          "x-base44": {
+            "title": "\uacb0\uc7ac \uc0c1\ud0dc \ud655\uc778",
+            "description": "\ub300\ud45c \uacb0\uc815 \uc870\ud68c"
+          }
+        }
+      },
+      {
+        "route_decision": {
+          "switch": [
+            {
+              "when": "${ .check_approval.status == \"REVISION_REQUESTED\" }",
+              "then": "execute_revision"
+            },
+            {
+              "when": "${ .check_approval.status == \"APPROVED\" }",
+              "then": "resolve_approval"
+            },
+            {
+              "when": "${ true }",
+              "then": "end"
+            }
+          ],
+          "x-base44": {
+            "title": "\uacb0\uc7ac \uacb0\uacfc \ubd84\uae30",
+            "description": "\uc2b9\uc778\u00b7\uc218\uc815\u00b7\ubc18\ub824"
+          }
+        }
+      },
+      {
+        "execute_revision": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "executeAgentTask",
+            "args": {
+              "task_id": "${ .trigger.data.task_id }",
+              "feedback_memo": "${ .check_approval.feedback_memo }"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "\uc218\uc815\uc548 \uc7ac\uc791\uc131",
+            "description": "\ud68c\ucc28 \uc720\uc9c0"
+          }
+        }
+      },
+      {
+        "resolve_approval": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "resolveApproval",
+            "args": {
+              "approval_id": "${ .trigger.entity_id }",
+              "task_id": "${ .trigger.data.task_id }"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "\uc2b9\uc778 \uc561\uc158 \uc2e4\ud589",
+            "description": "\uba54\uc77c \ubc1c\uc1a1\u00b7\uc131\uacfc \ud3c9\uac00"
+          }
+        }
+      }
+    ]
+  }
+}

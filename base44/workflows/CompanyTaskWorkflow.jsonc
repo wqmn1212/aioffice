@@ -1,0 +1,41 @@
+{
+  "name": "Company Task Workflow",
+  "description": "\uc0c8 \uc5c5\ubb34\uac00 \uc0dd\uc131\ub418\uba74 \uc5d0\uc774\uc804\ud2b8\uac00 \uccab \uacb0\uc7ac\uc548\uc744 \uc791\uc131\ud569\ub2c8\ub2e4.",
+  "trigger": {
+    "config": {
+      "trigger_type": "entity",
+      "entity_name": "WorkTask",
+      "events": [
+        "create"
+      ]
+    },
+    "condition": "${ .trigger.data.status == \"in_progress\" and .trigger.data.iteration == 1 }"
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "company_task_workflow",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "execute_task": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "executeAgentTask",
+            "args": {
+              "task_id": "${ .trigger.entity_id }",
+              "feedback_memo": ""
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "\uccab \uc5c5\ubb34 \uc2e4\ud589",
+            "description": "\uacb0\uc7ac\uc548 \uc0dd\uc131"
+          }
+        }
+      }
+    ]
+  }
+}

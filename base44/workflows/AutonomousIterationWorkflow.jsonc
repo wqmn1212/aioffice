@@ -1,0 +1,41 @@
+{
+  "name": "Autonomous Iteration Workflow",
+  "description": "\ub2ec\uc131\ub960\uc774 \ubd80\uc871\ud574 \ud68c\ucc28\uac00 \uc99d\uac00\ud558\uba74 \ub2e4\uc74c \uc790\uc728 \uc2e4\ud589\uc744 \uc2dc\uc791\ud569\ub2c8\ub2e4.",
+  "trigger": {
+    "config": {
+      "trigger_type": "entity",
+      "entity_name": "WorkTask",
+      "events": [
+        "update"
+      ]
+    },
+    "condition": "${ .trigger.data.status == \"in_progress\" and .trigger.data.iteration > .trigger.old_data.iteration and .trigger.data.iteration <= 3 }"
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "autonomous_iteration_workflow",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "execute_next_iteration": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "executeAgentTask",
+            "args": {
+              "task_id": "${ .trigger.entity_id }",
+              "feedback_memo": ""
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "\ub2e4\uc74c \ud68c\ucc28 \uc2e4\ud589",
+            "description": "\ucd5c\ub300 3\ud68c"
+          }
+        }
+      }
+    ]
+  }
+}

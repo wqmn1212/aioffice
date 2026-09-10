@@ -32,7 +32,14 @@
       "data.company_id": "{{user.data.company_id}}"
     },
     "update": {
-      "data.company_id": "{{user.data.company_id}}"
+      "$or": [
+        {
+          "data.company_id": "{{user.data.company_id}}"
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        }
+      ]
     },
     "delete": {
       "data.company_id": "{{user.data.company_id}}"

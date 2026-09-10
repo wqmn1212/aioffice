@@ -2,6 +2,10 @@
   "name": "Company",
   "type": "object",
   "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "\ud68c\uc0ac \ub808\ucf54\ub4dc \uc790\uccb4 ID\uc640 \ub3d9\uc77c\ud55c \ud14c\ub10c\ud2b8 ID"
+    },
     "name": {
       "type": "string"
     },
@@ -19,5 +23,19 @@
     "name",
     "business_type",
     "departments"
-  ]
+  ],
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "read": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "update": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "delete": {
+      "data.company_id": "{{user.data.company_id}}"
+    }
+  }
 }

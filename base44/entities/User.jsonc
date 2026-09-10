@@ -1,4 +1,6 @@
 {
+  "name": "User",
+  "type": "object",
   "properties": {
     "role": {
       "type": "string",
@@ -7,11 +9,13 @@
         "admin",
         "user"
       ]
+    },
+    "company_id": {
+      "type": "string",
+      "description": "\ud604\uc7ac \uc0ac\uc6a9\uc790\uac00 \uc18c\uc18d\ub41c \ud68c\uc0ac ID"
     }
   },
   "required": [
     "role"
-  ],
-  "name": "User",
-  "type": "object"
+  ]
 }

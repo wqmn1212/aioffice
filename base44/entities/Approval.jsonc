@@ -1,0 +1,81 @@
+{
+  "name": "Approval",
+  "description": "\ub300\ud45c \uacb0\uc7ac \ub300\uae30 \ubb38\uc11c \ubc0f \uc678\ubd80 \uc2e4\ud589 \ud398\uc774\ub85c\ub4dc \ubcf4\ub958\uc7a5",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "description": "\uc18c\uc18d \ud68c\uc0ac ID"
+    },
+    "task_id": {
+      "type": "string",
+      "description": "\uc5f0\uad00 WorkTask ID"
+    },
+    "department": {
+      "type": "string",
+      "enum": [
+        "sales",
+        "marketing",
+        "development",
+        "design",
+        "hr",
+        "operations"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "preview_data": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "SEND_EMAIL",
+        "INSTAGRAM_POST",
+        "COMMERCE_ORDER"
+      ],
+      "default": "SEND_EMAIL"
+    },
+    "action_payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "APPROVED",
+        "REVISION_REQUESTED",
+        "REJECTED"
+      ],
+      "default": "PENDING"
+    },
+    "feedback_memo": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "company_id",
+    "task_id",
+    "department",
+    "title",
+    "action_type",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "read": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "update": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "delete": {
+      "data.company_id": "{{user.data.company_id}}"
+    }
+  }
+}

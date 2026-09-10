@@ -1,0 +1,62 @@
+{
+  "name": "AgentLog",
+  "description": "\uc2e4\uc2dc\uac04 \uc5d0\uc774\uc804\ud2b8 \uc5c5\ubb34 \uc9c4\ud589 \ub85c\uadf8",
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "department": {
+      "type": "string",
+      "enum": [
+        "sales",
+        "marketing",
+        "development",
+        "design",
+        "hr",
+        "operations"
+      ]
+    },
+    "agent_name": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "INFO",
+        "ACTION",
+        "APPROVAL",
+        "SUCCESS",
+        "WARN"
+      ],
+      "default": "INFO"
+    }
+  },
+  "required": [
+    "company_id",
+    "task_id",
+    "department",
+    "agent_name",
+    "message"
+  ],
+  "rls": {
+    "create": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "read": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "update": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "delete": {
+      "data.company_id": "{{user.data.company_id}}"
+    }
+  }
+}

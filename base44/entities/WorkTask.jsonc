@@ -12,7 +12,15 @@
       "type": "string"
     },
     "department": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "sales",
+        "marketing",
+        "development",
+        "design",
+        "hr",
+        "operations"
+      ]
     },
     "assignee": {
       "type": "string"
@@ -22,7 +30,8 @@
       "enum": [
         "queued",
         "in_progress",
-        "completed"
+        "completed",
+        "cancelled"
       ],
       "default": "queued"
     },
@@ -40,6 +49,22 @@
     },
     "result": {
       "type": "string"
+    },
+    "iteration": {
+      "type": "number",
+      "default": 1,
+      "minimum": 1,
+      "maximum": 3
+    },
+    "progress_rate": {
+      "type": "number",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 100
+    },
+    "selected_model": {
+      "type": "string",
+      "default": "gemini_3_flash"
     }
   },
   "required": [
@@ -47,5 +72,19 @@
     "title",
     "department",
     "status"
-  ]
+  ],
+  "rls": {
+    "create": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "read": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "update": {
+      "data.company_id": "{{user.data.company_id}}"
+    },
+    "delete": {
+      "data.company_id": "{{user.data.company_id}}"
+    }
+  }
 }

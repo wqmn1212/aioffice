@@ -12,7 +12,7 @@ export default async function(req) {
     const model = models.includes(body.model) ? body.model : 'gemini_3_flash';
     if (!companyId || goal.length < 3) return Response.json({ error: '회사와 3자 이상의 업무 목표를 입력해 주세요.' }, { status: 400 });
     if (user.company_id !== companyId) return Response.json({ error: '해당 회사에 업무를 등록할 권한이 없습니다.' }, { status: 403 });
-    const company = await base44.entities.Company.get(companyId);
+    const company = await base44.asServiceRole.entities.Company.get(companyId);
     const allowedDepartments = (company.departments || []).filter((id) => departments.includes(id));
     if (!allowedDepartments.length) return Response.json({ error: '업무를 배정할 부서가 없습니다.' }, { status: 400 });
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
@@ -24,8 +24,9 @@ export default async function(req) {
     if (!allowedDepartments.includes(result.department)) return Response.json({ error: '담당 부서를 결정하지 못했습니다.' }, { status: 502 });
     const title = cleanText(result.title, 60);
     const description = cleanText(result.description, 500);
-    const goalRecord = await base44.entities.Goal.create({ company_id: companyId, title, description: goal, status: 'active', department: result.department });
-    const task = await base44.entities.WorkTask.create({ company_id: companyId, goal_id: goalRecord.id, title, description, department: result.department, assignee: leaders[result.department], status: 'in_progress', priority: result.priority === 'high' ? 'high' : 'normal', progress: 0, result: '', iteration: 1, progress_rate: 0, selected_model: model });
+    const goalRecord = await base44.asServiceRole.entities.Goal.create({ company_id: companyId, title, description: goal, status: 'active', department: result.department });
+    if (!goalRecord?.id) return Response.json({ error: '목표 생성에 실패했습니다.' }, { status: 500 });
+    const task = await base44.asServiceRole.entities.WorkTask.create({ company_id: companyId, goal_id: goalRecord.id, title, description, department: result.department, assignee: leaders[result.department], status: 'in_progress', priority: result.priority === 'high' ? 'high' : 'normal', progress: 0, result: '', iteration: 1, progress_rate: 0, selected_model: model });
     return Response.json({ task, goal: goalRecord });
   } catch (error) {
     return Response.json({ error: error.message || '업무 접수 중 오류가 발생했습니다.' }, { status: 500 });

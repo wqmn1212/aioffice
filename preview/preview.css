@@ -1,0 +1,50 @@
+/* 미리보기 전용 스타일.
+   실제 앱은 Tailwind(preflight)와 shadcn Dialog를 사용하므로, 이 파일은 그 두 가지 중
+   company.css가 전제하는 최소한의 부분만 재현합니다. 앱 화면 스타일은 모두 company.css에서 옵니다. */
+
+/* --- Tailwind preflight 최소 재현 --- */
+*, ::before, ::after { box-sizing: border-box; border-width: 0; border-style: solid; border-color: #e5e7eb; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; line-height: inherit; background: #f7f8fb; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; margin: 0; }
+p, figure, blockquote, dl, dd, pre { margin: 0; }
+a { color: inherit; text-decoration: inherit; }
+b, strong { font-weight: bolder; }
+small { font-size: 80%; }
+button, input, optgroup, select, textarea { font-family: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; color: inherit; margin: 0; padding: 0; }
+button, select { text-transform: none; }
+button, [type='button'], [type='submit'] { -webkit-appearance: button; background-color: transparent; background-image: none; cursor: pointer; }
+table { text-indent: 0; border-color: inherit; border-collapse: collapse; }
+ol, ul, menu { list-style: none; margin: 0; padding: 0; }
+textarea { resize: vertical; }
+input::placeholder, textarea::placeholder { opacity: 1; color: #9ca3af; }
+img, svg, video, canvas, iframe { display: block; vertical-align: middle; }
+img, video { max-width: 100%; height: auto; }
+summary { cursor: pointer; }
+:focus-visible { outline-offset: 2px; }
+
+/* --- 실제 앱에서 Tailwind가 제공하는 유틸리티 --- */
+@keyframes spin { to { transform: rotate(360deg); } }
+.animate-spin { animation: spin 1s linear infinite; }
+
+/* --- shadcn Dialog 대체 --- */
+.preview-dialog-overlay { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, .8); }
+.preview-dialog { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 51; display: grid; gap: 16px; width: 100%; max-width: 512px; padding: 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -4px rgba(0, 0, 0, .1); }
+.preview-dialog-header { display: flex; flex-direction: column; gap: 6px; }
+.preview-dialog-close { position: absolute; right: 16px; top: 16px; color: #8d8598; opacity: .7; }
+.preview-dialog-close:hover { opacity: 1; }
+
+/* --- 미리보기 컨트롤 바(실제 앱에는 없는 테스트용 UI) --- */
+.preview-bar { position: fixed; left: 14px; bottom: 14px; z-index: 60; display: flex; flex-direction: column; gap: 9px; width: 232px; padding: 13px; border-radius: 11px; background: #241d33; color: #ddd5ec; font-size: 11px; box-shadow: 0 8px 24px rgba(36, 24, 58, .28); }
+.preview-bar.collapsed { width: auto; padding: 9px 12px; }
+.preview-bar-head { display: flex; align-items: center; gap: 7px; font-weight: 600; letter-spacing: -.2px; }
+.preview-bar-head span { flex: 1; }
+.preview-bar-head button { color: #a99ec2; font-size: 10px; }
+.preview-bar-head button:hover { color: #fff; }
+.preview-bar label { display: flex; flex-direction: column; gap: 5px; font-size: 10px; color: #a99ec2; }
+.preview-bar select { width: 100%; padding: 7px 8px; border-radius: 6px; background: #332a47; color: #ece7f5; font-size: 11px; cursor: pointer; }
+.preview-bar-actions { display: flex; gap: 6px; }
+.preview-bar-actions button { flex: 1; padding: 7px; border-radius: 6px; background: #3c3252; color: #e4dcf2; font-size: 10px; }
+.preview-bar-actions button:hover { background: #4a3d66; }
+.preview-bar p { font-size: 9px; line-height: 1.7; color: #8e84a8; }
+@media (max-width: 800px) { .preview-bar { left: auto; right: 12px; bottom: 12px; width: 200px; } }

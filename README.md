@@ -33,6 +33,12 @@ Notes:
 - **The app must be published at least once for the UI to load under `base44 dev`.** The frontend boots by fetching app settings from the hosted app; before the first publish that fails and every page redirects to login. The local API works regardless.
 - Entities, functions, and auth run locally — entity data is **in-memory only**, wiped when `base44 dev` restarts. Everything else (Core integrations, OAuth login) is forwarded to your deployed app. Full breakdown: [Local development overview](https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview).
 
+## 더미 데이터 미리보기 (백엔드 없이 테스트)
+
+Base44 백엔드나 로그인 없이 대시보드 화면만 빠르게 확인하려면 `preview/index.html` 을 브라우저로 열면 됩니다.
+더미 데이터(기본 데모 / 빈 워크스페이스 / 대량 데이터)로 캘린더, 목표별 칸반, 결재 승인·반려, 에이전트 목록,
+업무 지시창을 그대로 눌러 볼 수 있습니다. 자세한 내용은 [`preview/README.md`](preview/README.md) 를 참고하세요.
+
 ## Frontend Only, Hosted Backend
 
 To work on just the frontend against your app's live hosted backend:

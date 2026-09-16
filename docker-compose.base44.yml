@@ -1,0 +1,52 @@
+# Base44 development compose — runs app from bind-mounted source with live reload.
+# Frontend (Vite) on :3000, backend (Hono) on :8787 inside the compose network.
+services:
+  setup:
+    image: node:22-slim
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - nodemodules:/app/node_modules
+      - server_nodemodules:/app/server/node_modules
+      - web_nodemodules:/app/web/node_modules
+    command: npm install
+
+  server:
+    image: node:22-slim
+    working_dir: /app
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    volumes:
+      - ./:/app
+      - nodemodules:/app/node_modules
+      - server_nodemodules:/app/server/node_modules
+      - web_nodemodules:/app/web/node_modules
+    env_file:
+      - /run/base44/app.env
+    environment:
+      - API_PORT=8787
+    command: npm run dev:server
+
+  web:
+    image: node:22-slim
+    working_dir: /app
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    volumes:
+      - ./:/app
+      - nodemodules:/app/node_modules
+      - server_nodemodules:/app/server/node_modules
+      - web_nodemodules:/app/web/node_modules
+    ports:
+      - "3000:5173"
+    environment:
+      - API_PROXY_TARGET=http://server:8787
+      - __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
+    command: npm run dev:web
+
+volumes:
+  nodemodules:
+  server_nodemodules:
+  web_nodemodules:

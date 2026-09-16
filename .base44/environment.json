@@ -1,0 +1,18 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "ANTHROPIC_API_KEY",
+      "description": "Anthropic API key from https://console.anthropic.com. Optional — the app runs in demo mode without it, but real company founding (non-demo) needs it to call Claude.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "AIOFFICE_SECRET",
+      "description": "Master encryption key (16+ chars) for encrypting API keys teams store via the provider settings page. Generated for development.",
+      "requiredAtBoot": false,
+      "generatedForDevelopment": true
+    }
+  ]
+}

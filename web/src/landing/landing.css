@@ -1,0 +1,659 @@
+/* 랜딩 페이지 — 픽셀아트 언어.
+   규칙: 둥근 모서리 없음, 그림자는 흐리지 않고 offset만, 테두리는 두껍게,
+   애니메이션은 steps()로 끊어서. 제품 화면과 같은 토큰을 쓴다. */
+
+.landing {
+  --ink: #0a0e18;
+  --edge: #2b3a57;
+  --lime: #84cc16;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+.landing h1,
+.landing h2,
+.landing h3,
+.landing .px-btn,
+.landing .lp-badge,
+.landing .plan-price {
+  font-family: var(--pixel);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- 공통 픽셀 부품 ---------- */
+
+.px-btn {
+  display: inline-block;
+  padding: 11px 20px;
+  border: 2px solid var(--edge);
+  border-radius: 0;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.08s steps(2), box-shadow 0.08s steps(2);
+}
+
+.px-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+/* 눌린 느낌 — 그림자를 없애고 버튼을 그만큼 내린다. */
+.px-btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.px-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.px-btn.primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #06281d;
+}
+
+.px-btn.ghost {
+  background: transparent;
+}
+
+.px-card {
+  padding: 20px;
+  border: 2px solid var(--edge);
+  border-radius: 0;
+  background: var(--panel);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.px-card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.px-card p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.px-card-icon {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* ---------- 상단 내비 ---------- */
+
+.lp-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.lp-logo {
+  font-family: var(--pixel);
+  font-size: 18px;
+  letter-spacing: 0.04em;
+}
+
+.lp-logo b {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.lp-nav nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.lp-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.lp-nav a:hover {
+  color: var(--text);
+}
+
+/* ---------- 히어로 ---------- */
+
+.lp-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 40px;
+  align-items: center;
+  padding: 36px 0 56px;
+}
+
+.lp-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-bottom: 18px;
+  border: 2px solid var(--lime);
+  color: var(--lime);
+  font-size: 11px;
+}
+
+.lp-hero h1 {
+  margin: 0 0 18px;
+  font-size: 38px;
+  line-height: 1.35;
+}
+
+.lp-hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+  /* 픽셀 밑줄 — 흐릿한 글로우 대신 각진 블록으로. */
+  box-shadow: inset 0 -8px 0 rgba(110, 231, 183, 0.18);
+}
+
+.lp-lede {
+  margin: 0 0 24px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.lp-count {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.lp-count strong {
+  color: var(--accent);
+}
+
+/* ---------- 히어로 디오라마 ---------- */
+
+/* 축소 담당 래퍼. 폭은 부모를 따라가고, 높이는 축소분만큼 줄여
+   아래에 빈 공간이 남지 않게 한다(transform은 레이아웃을 바꾸지 않는다). */
+.hero-diorama-fit {
+  width: 420px;
+  max-width: 100%;
+}
+
+.hero-diorama {
+  position: relative;
+  flex: none;
+  transform-origin: top left;
+  border: 2px solid var(--edge);
+  background: #10182a;
+  box-shadow: 5px 5px 0 var(--ink);
+  overflow: hidden;
+}
+
+.diorama-floor {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(80, 104, 156, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80, 104, 156, 0.1) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.dio-desk {
+  position: absolute;
+  width: 54px;
+  height: 22px;
+  background: #6b4c32;
+  border: 1px solid #4a3422;
+}
+
+.dio-monitor {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 13px;
+  background: #1c2b46;
+  border: 1px solid #3f5a86;
+}
+
+.dio-table {
+  position: absolute;
+  left: 44px;
+  top: 152px;
+  width: 152px;
+  height: 30px;
+  background: #45341f;
+  border: 1px solid #5f4829;
+}
+
+.dio-vending {
+  position: absolute;
+  right: 26px;
+  top: 112px;
+  width: 26px;
+  height: 46px;
+  background: #1f4d43;
+  border: 1px solid #2f7a68;
+  box-shadow: inset 0 7px 0 -3px #6ee7b7;
+}
+
+.dio-char-slot {
+  position: absolute;
+  width: 30px;
+  height: 35px;
+}
+
+.dio-char {
+  display: block;
+  width: 30px;
+  height: 35px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+}
+
+.dio-bob {
+  animation: dio-bob 1.6s steps(2, end) infinite;
+}
+
+.dio-char-slot:nth-child(even) .dio-bob {
+  animation-delay: 0.8s;
+}
+
+@keyframes dio-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.dio-tag {
+  position: absolute;
+  padding: 2px 6px;
+  font-family: var(--pixel);
+  font-size: 10px;
+  border: 1px solid var(--edge);
+  background: rgba(10, 14, 24, 0.9);
+}
+
+.dio-tag-work {
+  left: 10px;
+  top: 10px;
+  color: #9ecbff;
+  border-color: #3f8ede;
+}
+
+.dio-tag-meet {
+  left: 10px;
+  bottom: 10px;
+  color: #ffd9a0;
+  border-color: #c98a2d;
+}
+
+.dio-tag-rest {
+  right: 10px;
+  top: 10px;
+  color: #a7e8c9;
+  border-color: #4d9e78;
+}
+
+/* ---------- 섹션 ---------- */
+
+.lp-section {
+  padding: 46px 0;
+  border-top: 2px solid var(--edge);
+}
+
+.lp-h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.lp-sub {
+  margin: 0 0 26px;
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 62ch;
+}
+
+.lp-pains .lp-h2 {
+  margin-bottom: 26px;
+}
+
+.lp-cards,
+.lp-steps,
+.lp-plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.px-card.step {
+  position: relative;
+  padding-top: 26px;
+}
+
+.step-n {
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  padding: 3px 8px;
+  font-family: var(--pixel);
+  font-size: 12px;
+  color: #06281d;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+}
+
+/* ---------- 부서 로스터 ---------- */
+
+.lp-roster {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.px-card.dept {
+  border-color: color-mix(in srgb, var(--dept) 50%, var(--edge));
+}
+
+.px-card.dept.star {
+  border-color: var(--dept);
+  box-shadow: 4px 4px 0 var(--ink), 0 0 0 1px var(--dept) inset;
+}
+
+.dept-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.dept-head h3 {
+  margin: 0;
+}
+
+.dept-emoji {
+  font-size: 18px;
+}
+
+.dept-star {
+  margin-left: auto;
+  padding: 2px 6px;
+  font-family: var(--pixel);
+  font-size: 10px;
+  color: var(--ink);
+  background: var(--dept);
+}
+
+.dept-crew {
+  display: flex;
+  gap: 4px;
+  margin-top: 14px;
+}
+
+.dept-sprite {
+  width: 24px;
+  height: 28px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+}
+
+/* ---------- 요금제 ---------- */
+
+.px-card.plan.highlight {
+  border-color: var(--accent);
+  box-shadow: 4px 4px 0 var(--ink), 0 0 0 1px var(--accent) inset;
+}
+
+.plan-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plan-head h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.plan-tag {
+  margin-left: auto;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-family: var(--pixel);
+  border: 1px solid var(--edge);
+  color: var(--muted);
+}
+
+.plan-tag.live {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.plan-price {
+  margin: 14px 0 12px;
+  font-size: 26px;
+  color: var(--text);
+}
+
+.plan-price span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.px-card.plan ul {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.px-card.plan li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 7px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* 체크 대신 각진 픽셀 블록 */
+.px-card.plan li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+}
+
+.plan-caveat {
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--edge);
+  font-size: 12px;
+  color: #6b7a96;
+}
+
+/* ---------- 신청 폼 ---------- */
+
+.wl-form {
+  max-width: 560px;
+}
+
+.wl-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wl-form input[type="email"],
+.wl-form textarea {
+  flex: 1;
+  min-width: 220px;
+  padding: 11px 12px;
+  border: 2px solid var(--edge);
+  border-radius: 0;
+  background: var(--bg-alt);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.wl-form textarea {
+  width: 100%;
+  margin-top: 14px;
+  min-height: 72px;
+  resize: vertical;
+}
+
+.wl-form input[type="email"]:focus,
+.wl-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.wl-fieldset {
+  margin: 18px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.wl-fieldset legend {
+  padding: 0 0 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.wl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.wl-chip {
+  padding: 6px 12px;
+  border: 2px solid var(--edge);
+  background: var(--panel);
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.wl-chip input {
+  /* 체크박스 자체는 숨기되 키보드 포커스는 살려 둔다. */
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.wl-chip.on {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.wl-chip:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.wl-fine {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: #6b7a96;
+}
+
+.wl-error {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.wl-done {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  max-width: 560px;
+  padding: 18px;
+  border: 2px solid var(--accent);
+  background: rgba(110, 231, 183, 0.07);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.wl-done-mark {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #06281d;
+  font-family: var(--pixel);
+}
+
+.wl-done strong {
+  font-family: var(--pixel);
+  font-size: 14px;
+}
+
+.wl-done p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---------- 푸터 ---------- */
+
+.lp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 26px 0 0;
+  border-top: 2px solid var(--edge);
+  font-family: var(--pixel);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.lp-link {
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-family: var(--pixel);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* ---------- 반응형 ---------- */
+
+@media (max-width: 900px) {
+  .lp-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-hero h1 {
+    font-size: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dio-bob {
+    animation: none;
+  }
+  .px-btn {
+    transition: none;
+  }
+}

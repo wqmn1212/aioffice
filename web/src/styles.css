@@ -1,0 +1,612 @@
+:root {
+  --bg: #0d1220;
+  --bg-alt: #131b2e;
+  --panel: #172033;
+  --line: #2b3a57;
+  --text: #dde5f5;
+  --muted: #8493ae;
+  --accent: #6ee7b7;
+  --danger: #fb7185;
+
+  --pixel: "Galmuri11", "Galmuri9", ui-monospace, "Consolas", monospace;
+  --sans: "Pretendard", -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  /* 도트 그리드 배경 — 오피스 타일맵의 예고편 */
+  background-image:
+    linear-gradient(rgba(70, 92, 140, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(70, 92, 140, 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ---------- 상단바 ---------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  border-bottom: 2px solid var(--line);
+  background: rgba(13, 18, 32, 0.92);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
+
+.logo {
+  font-family: var(--pixel);
+  font-size: 20px;
+  letter-spacing: 1px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.logo span {
+  color: var(--accent);
+  margin-left: 6px;
+}
+
+.badge-ceo {
+  font-family: var(--pixel);
+  font-size: 12px;
+  padding: 6px 12px;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  box-shadow: 3px 3px 0 rgba(110, 231, 183, 0.2);
+}
+
+/* ---------- 공통 패널 ---------- */
+
+.panel {
+  background: var(--panel);
+  border: 2px solid var(--line);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.35);
+  padding: 22px;
+}
+
+.panel-title {
+  font-family: var(--pixel);
+  font-size: 14px;
+  margin: 0 0 14px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.error {
+  color: var(--danger);
+  border-left: 3px solid var(--danger);
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+/* ---------- 시작 화면 ---------- */
+
+.start {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero {
+  font-family: var(--pixel);
+  font-size: 34px;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.hero-sub {
+  color: var(--muted);
+  margin: -12px 0 0;
+}
+
+.found-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.found-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--pixel);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.found-form input,
+.found-form textarea {
+  background: var(--bg-alt);
+  border: 2px solid var(--line);
+  padding: 12px 14px;
+  font-family: var(--sans);
+  font-size: 15px;
+  resize: vertical;
+}
+
+.found-form input:focus,
+.found-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.found-form small {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.found-form button {
+  font-family: var(--pixel);
+  font-size: 16px;
+  padding: 14px;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: #06281c;
+  cursor: pointer;
+  box-shadow: 5px 5px 0 rgba(110, 231, 183, 0.25);
+}
+
+.found-form button:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 rgba(110, 231, 183, 0.25);
+}
+
+.found-form button:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.company-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.company-list li {
+  display: flex;
+  gap: 8px;
+}
+
+.company-list li > button:first-child {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-alt);
+  border: 2px solid var(--line);
+  padding: 12px 14px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.company-list li > button:first-child:hover {
+  border-color: var(--accent);
+}
+
+.company-list span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.delete-btn {
+  flex: 0 0 44px;
+  background: var(--bg-alt);
+  border: 2px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ---------- 키 없음 안내 배너 ---------- */
+
+.banner {
+  border: 2px solid #b8860b;
+  border-left-width: 6px;
+  background: rgba(184, 134, 11, 0.12);
+  padding: 14px 18px;
+}
+
+.banner strong {
+  font-family: var(--pixel);
+  font-size: 13px;
+  color: #f0c674;
+}
+
+.banner p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.banner b {
+  color: var(--text);
+}
+
+/* ---------- 폼 액션 ---------- */
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  flex: 1 1 160px;
+}
+
+.ghost-btn {
+  background: transparent;
+  border: 2px solid var(--line);
+  color: var(--text);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.ghost-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.demo-tag {
+  font-family: var(--pixel);
+  font-size: 11px;
+  margin-left: 10px;
+  padding: 4px 8px;
+  border: 2px solid #f0c674;
+  color: #f0c674;
+  vertical-align: middle;
+}
+
+/* ---------- 설립 진행 ---------- */
+
+.founding {
+  display: flex;
+  justify-content: center;
+  padding: 80px 24px;
+}
+
+.founding-panel {
+  width: min(520px, 100%);
+}
+
+.founding-panel h1 {
+  font-family: var(--pixel);
+  font-size: 22px;
+  margin: 0 0 20px;
+}
+
+.steps {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.steps li {
+  font-size: 14px;
+  padding-left: 26px;
+  position: relative;
+  color: var(--muted);
+}
+
+.steps li::before {
+  content: "▫";
+  position: absolute;
+  left: 0;
+  font-family: var(--pixel);
+}
+
+.steps li[data-state="done"] {
+  color: var(--text);
+}
+
+.steps li[data-state="done"]::before {
+  content: "▪";
+  color: var(--accent);
+}
+
+.steps li[data-state="active"] {
+  color: var(--accent);
+}
+
+.steps li[data-state="active"]::before {
+  content: "▸";
+  color: var(--accent);
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* ---------- 회사 화면 ---------- */
+
+.company {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.company-head h1 {
+  font-family: var(--pixel);
+  font-size: 28px;
+  margin: 0 0 12px;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tag {
+  font-family: var(--pixel);
+  font-size: 12px;
+  padding: 5px 10px;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+.tag.ghost {
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.summary {
+  margin: 0 0 20px;
+  color: var(--text);
+  max-width: 70ch;
+}
+
+.stats {
+  display: flex;
+  gap: 32px;
+  border-top: 2px solid var(--line);
+  padding-top: 16px;
+}
+
+.stats div {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats strong {
+  font-family: var(--pixel);
+  font-size: 26px;
+  color: var(--accent);
+}
+
+.stats span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ---------- 부서 카드 ---------- */
+
+.dept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 20px;
+}
+
+.dept {
+  border-top: 5px solid var(--dept, var(--accent));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dept-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dept-emoji {
+  font-size: 26px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: var(--bg-alt);
+  border: 2px solid var(--line);
+}
+
+.dept-head h2 {
+  font-family: var(--pixel);
+  font-size: 17px;
+  margin: 0;
+}
+
+.dept-head small {
+  font-family: var(--pixel);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.dept-mission {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  border-left: 3px solid var(--dept, var(--line));
+  padding-left: 10px;
+}
+
+.roster {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.person {
+  display: flex;
+  gap: 10px;
+  background: var(--bg-alt);
+  border: 2px solid var(--line);
+  padding: 10px 12px;
+}
+
+.person.lead {
+  border-color: var(--dept, var(--accent));
+}
+
+.avatar {
+  font-family: var(--pixel);
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  display: grid;
+  place-items: center;
+  background: var(--dept, var(--accent));
+  color: #0b111d;
+  font-size: 14px;
+}
+
+.person:not(.lead) .avatar {
+  background: var(--line);
+  color: var(--muted);
+}
+
+.person-body {
+  min-width: 0;
+}
+
+.person-name {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.person-name strong {
+  font-family: var(--pixel);
+  font-size: 14px;
+}
+
+.role-title {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.persona {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.task {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  color: var(--dept, var(--accent));
+}
+
+/* ---------- 비활성 부서 ---------- */
+
+.inactive-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inactive-list li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  opacity: 0.6;
+  font-size: 13px;
+}
+
+.inactive-list strong {
+  font-family: var(--pixel);
+  font-size: 13px;
+}
+
+.inactive-list span {
+  color: var(--muted);
+}
+
+/* 회사 화면 탭 — 오피스 / 조직도 */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 18px 0 4px;
+  padding: 0 20px;
+}
+
+.tab {
+  font-family: var(--pixel);
+  font-size: 13px;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  cursor: pointer;
+}
+
+.tab.on {
+  border-color: var(--accent);
+  color: var(--accent);
+}

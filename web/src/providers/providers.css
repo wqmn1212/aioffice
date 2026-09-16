@@ -1,0 +1,208 @@
+/* 모델 연동 설정 화면. 오피스와 같은 픽셀 언어를 쓴다. */
+
+.providers {
+  padding: 0 20px 48px;
+}
+
+.pv-intro {
+  margin-bottom: 18px;
+}
+
+.pv-intro p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 62ch;
+}
+
+.pv-warn {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 2px solid var(--danger);
+  background: rgba(251, 113, 133, 0.08);
+}
+
+.pv-warn strong {
+  font-family: var(--pixel);
+  font-size: 14px;
+  color: var(--danger);
+}
+
+.pv-warn p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.pv-warn code,
+.pv-current code {
+  padding: 1px 5px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.pv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.pv-card {
+  padding: 18px;
+  border: 2px solid var(--line);
+  background: var(--panel);
+  box-shadow: 4px 4px 0 #0a0e18;
+}
+
+.pv-card.on {
+  border-color: var(--accent);
+}
+
+.pv-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.pv-card-head h3 {
+  margin: 0;
+  font-family: var(--pixel);
+  font-size: 16px;
+}
+
+.pv-pill {
+  margin-left: auto;
+  padding: 2px 8px;
+  font-family: var(--pixel);
+  font-size: 10px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.pv-pill.on {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.pv-current {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.pv-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.pv-label input,
+.pv-label select {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding: 9px 10px;
+  border: 2px solid var(--line);
+  border-radius: 0;
+  background: var(--bg-alt);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.pv-label input:focus,
+.pv-label select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.pv-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pv-actions button {
+  padding: 8px 16px;
+  border: 2px solid var(--accent);
+  border-radius: 0;
+  background: transparent;
+  color: var(--accent);
+  font-family: var(--pixel);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.pv-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pv-actions .pv-danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.pv-link {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.pv-link:hover {
+  color: var(--text);
+}
+
+.pv-msg {
+  margin: 12px 0 0;
+  font-size: 13px;
+}
+
+.pv-msg.ok {
+  color: var(--accent);
+}
+
+.pv-msg.fail {
+  color: var(--danger);
+}
+
+/* ---------- 사용량 ---------- */
+
+.pv-usage {
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 2px solid var(--line);
+  background: var(--bg-alt);
+}
+
+.pv-usage h3 {
+  margin: 0 0 10px;
+  font-family: var(--pixel);
+  font-size: 14px;
+}
+
+.pv-usage-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.pv-usage-row strong {
+  color: var(--text);
+  font-family: var(--pixel);
+}
+
+.pv-fine {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #6b7a96;
+}
